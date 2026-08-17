@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SalutMap - Mapa de negocis sanitaris</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body class="auth-pending">
+    <header class="app-header">
+        <div class="header-left">
+            <button id="sidebarToggle" class="sidebar-toggle" aria-label="Mostrar/amagar sidebar">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+            <div class="header-brand">
+                <svg class="header-logo" viewBox="0 0 48 48" fill="none">
+                    <circle cx="24" cy="24" r="22" fill="url(#hGrad)" stroke="white" stroke-width="2"/>
+                    <path d="M24 12v24M12 24h24" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                    <defs><linearGradient id="hGrad" x1="0" y1="0" x2="48" y2="48"><stop stop-color="#0891b2"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
+                </svg>
+                <span class="brand-text">SalutMap</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <button id="locateBtn" class="header-btn" title="La meva ubicació">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" fill="currentColor"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                <span class="btn-label">Ubicació</span>
+            </button>
+            <button id="logoutBtn" class="header-btn logout" title="Tancar sessió">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span class="btn-label">Sortir</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="app-main">
+        <aside id="sidebar" class="sidebar">
+            <div class="sidebar-content">
+                <div class="search-section">
+                    <div class="search-box">
+                        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                        <input type="text" id="searchInput" placeholder="Cercar farmàcies, clíniques..." aria-label="Cercar negocis">
+                        <button id="clearSearch" class="clear-btn" title="Netejar cerca" style="display:none">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="filters-section">
+                    <select id="typeFilter" class="filter-select" aria-label="Filtrar per tipus">
+                        <option value="">Tots els tipus</option>
+                        <option value="Farmacia">Farmàcies</option>
+                        <option value="Clinica dental">Clíniques dentals</option>
+                        <option value="Clinica">Clíniques</option>
+                        <option value="Otro">Altres</option>
+                    </select>
+                    <select id="regionFilter" class="filter-select" aria-label="Filtrar per regió">
+                        <option value="">Totes les regions</option>
+                        <option value="Catalunya">Catalunya</option>
+                        <option value="Aragon">Aragó</option>
+                    </select>
+                </div>
+
+                <div class="results-info">
+                    <span id="resultCount">Carregant negocis...</span>
+                    <button id="showAllBtn" class="link-btn" style="display:none">Mostrar tots</button>
+                </div>
+
+                <div id="resultsList" class="results-list">
+                    <div class="loading-state">
+                        <div class="spinner"></div>
+                        <p>Carregant dades...</p>
+                    </div>
+                </div>
+
+                <div id="routePanel" class="route-panel" style="display:none">
+                    <div class="route-header">
+                        <h3>Com arribar-hi</h3>
+                        <button id="closeRoute" class="link-btn">Tancar</button>
+                    </div>
+                    <div class="route-destination" id="routeDestination"></div>
+                    <div class="transport-options">
+                        <button class="transport-btn" data-mode="car" title="Cotxe">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 17h14M5 17a2 2 0 01-2-2V8a2 2 0 012-2h1l2-3h8l2 3h1a2 2 0 012 2v7a2 2 0 01-2 2M5 17a2 2 0 002 2h1a2 2 0 002-2M14 17a2 2 0 002 2h1a2 2 0 002-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <span>Cotxe</span>
+                        </button>
+                        <button class="transport-btn" data-mode="bike" title="Bicicleta">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="5.5" cy="17.5" r="3.5" stroke="currentColor" stroke-width="1.5"/><circle cx="18.5" cy="17.5" r="3.5" stroke="currentColor" stroke-width="1.5"/><path d="M15 6a1 1 0 100-2 1 1 0 000 2zM12 17.5V14l-3-3 4-3 2 3h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <span>Bicicleta</span>
+                        </button>
+                        <button class="transport-btn" data-mode="foot" title="A peu">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M13 4a1 1 0 100-2 1 1 0 000 2zM10 22l-1-5 3-2 2 3-2 4M14 12l-4 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <span>A peu</span>
+                        </button>
+                    </div>
+                    <div id="routeInfo" class="route-info" style="display:none"></div>
+                    <div id="routeError" class="route-error" style="display:none"></div>
+                </div>
+            </div>
+        </aside>
+
+        <div id="mapContainer" class="map-container">
+            <div id="map"></div>
+        </div>
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="./js/auth.js"></script>
+    <script src="./js/data.js"></script>
+    <script src="./js/map.js"></script>
+    <script src="./js/search.js"></script>
+    <script src="./js/routing.js"></script>
+    <script src="./js/app.js"></script>
+</body>
+</html>

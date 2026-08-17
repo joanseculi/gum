@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detall del negoci - SalutMap</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="./css/detail.css">
+</head>
+<body class="auth-pending">
+    <header class="detail-header">
+        <a href="./index.html" class="back-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Tornar al mapa
+        </a>
+        <div class="header-brand">
+            <svg class="header-logo" viewBox="0 0 48 48" fill="none">
+                <circle cx="24" cy="24" r="22" fill="url(#dGrad)" stroke="white" stroke-width="2"/>
+                <path d="M24 12v24M12 24h24" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                <defs><linearGradient id="dGrad" x1="0" y1="0" x2="48" y2="48"><stop stop-color="#0891b2"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
+            </svg>
+            <span class="brand-text">SalutMap</span>
+        </div>
+    </header>
+
+    <main class="detail-main">
+        <div id="detailContent" class="detail-content">
+            <div class="loading-state">
+                <div class="spinner"></div>
+                <p>Carregant informació...</p>
+            </div>
+        </div>
+
+        <div class="detail-map-section">
+            <div id="detailMap" class="detail-map"></div>
+        </div>
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="./js/auth.js"></script>
+    <script src="./js/data.js"></script>
+    <script src="./js/detail.js"></script>
+</body>
+</html>
