@@ -159,7 +159,7 @@ const App = (() => {
         RoutingManager.requestUserLocation()
             .then(loc => {
                 state.userLocation = loc;
-                MapManager.setUserLocation(loc.lat, loc.lng);
+                MapManager.setUserLocation(loc.lat, loc.lng, manual);
             })
             .catch(err => {
                 if (manual) {

@@ -455,11 +455,30 @@ body {
 .marker-popup .popup-btn:hover { opacity: 0.85; }
 .marker-popup .popup-btn-detail { background: var(--primary); color: white; }
 .marker-popup .popup-btn-route { background: var(--success); color: white; }
+.marker-popup .popup-btn-maps { background: #4285f4; color: white; }
 
 /* USER LOCATION MARKER */
 .user-marker {
     background: transparent;
     border: none;
+}
+
+.user-marker::before {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: rgba(59, 130, 246, 0.2);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse 2s ease-out infinite;
+}
+
+@keyframes pulse {
+    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
 }
 
 /* RESPONSIVE */

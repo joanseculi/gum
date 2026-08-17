@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SalutMap - Mapa de negocis sanitaris</title>
+    <title>GumMap - Mapa de negocis sanitaris</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
@@ -22,7 +22,7 @@
                     <path d="M24 12v24M12 24h24" stroke="white" stroke-width="4" stroke-linecap="round"/>
                     <defs><linearGradient id="hGrad" x1="0" y1="0" x2="48" y2="48"><stop stop-color="#0891b2"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
                 </svg>
-                <span class="brand-text">SalutMap</span>
+                <span class="brand-text">GumMap</span>
             </div>
         </div>
         <div class="header-right">
@@ -53,15 +53,15 @@
                 <div class="filters-section">
                     <select id="typeFilter" class="filter-select" aria-label="Filtrar per tipus">
                         <option value="">Tots els tipus</option>
-                        <option value="Farmacia">Farmàcies</option>
-                        <option value="Clinica dental">Clíniques dentals</option>
-                        <option value="Clinica">Clíniques</option>
-                        <option value="Otro">Altres</option>
+                        <option value="Pharmacy">Farmàcies</option>
+                        <option value="Dentist">Dentistes</option>
+                        <option value="Distributor">Distribuïdors</option>
                     </select>
                     <select id="regionFilter" class="filter-select" aria-label="Filtrar per regió">
                         <option value="">Totes les regions</option>
                         <option value="Catalunya">Catalunya</option>
-                        <option value="Aragon">Aragó</option>
+                        <option value="Aragó">Aragó</option>
+                        <option value="Andorra">Andorra</option>
                     </select>
                 </div>
 

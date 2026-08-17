@@ -123,6 +123,10 @@ const MapManager = (() => {
         const addressParts = [b.direccion, b.codigoPostal ? `${b.codigoPostal} ${b.poblacion}` : b.poblacion].filter(Boolean);
         const address = addressParts.join(', ') || 'Sense adreça';
 
+        const googleMapsUrl = b.lat && b.lng
+            ? `https://www.google.com/maps?q=${b.lat},${b.lng}`
+            : null;
+
         return `
             <div class="marker-popup">
                 <h3>${escapeHtml(b.nombre || 'Sense nom')}</h3>
@@ -131,8 +135,9 @@ const MapManager = (() => {
                 ${b.telefono ? `<div class="popup-info">${escapeHtml(b.telefono)}</div>` : ''}
                 ${b.cadena ? `<div class="popup-info">${escapeHtml(b.cadena)}</div>` : ''}
                 <div class="popup-actions">
-                    <a href="./detail.html?id=${encodeURIComponent(b.codigo)}" class="popup-btn popup-btn-detail" id="detail-${b.codigo}">Veure informació</a>
+                    <a href="./detail.html?id=${encodeURIComponent(b.codigo)}" class="popup-btn popup-btn-detail" id="detail-${b.codigo}">Informació</a>
                     <a href="#" class="popup-btn popup-btn-route" id="route-${b.codigo}">Com arribar</a>
+                    ${googleMapsUrl ? `<a href="${googleMapsUrl}" target="_blank" rel="noopener noreferrer" class="popup-btn popup-btn-maps">Google Maps</a>` : ''}
                 </div>
             </div>
         `;
@@ -178,7 +183,7 @@ const MapManager = (() => {
         });
     }
 
-    function setUserLocation(lat, lng) {
+    function setUserLocation(lat, lng, shouldZoom) {
         if (userMarker) {
             map.removeLayer(userMarker);
         }
@@ -198,6 +203,11 @@ const MapManager = (() => {
 
         userMarker = L.marker([lat, lng], { icon, zIndexOffset: 1000 }).addTo(map);
         userMarker.bindPopup('<b>La vostra ubicació</b>');
+
+        if (shouldZoom) {
+            map.setView([lat, lng], 16, { animate: true });
+        }
+
         return [lat, lng];
     }
 

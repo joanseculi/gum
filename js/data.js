@@ -77,19 +77,23 @@ const DataManager = (() => {
 
         if (typeFilter) {
             results = results.filter(b => {
-                const tipo = b.tipo.toLowerCase();
-                if (typeFilter === 'Farmacia') return tipo.includes('farm');
-                if (typeFilter === 'Clinica dental') return tipo.includes('dental') || tipo.includes('dent');
-                if (typeFilter === 'Clinica') return tipo.includes('clin') && !tipo.includes('dental') && !tipo.includes('dent');
-                if (typeFilter === 'Otro') return !tipo.includes('farm') && !tipo.includes('clin') && !tipo.includes('dental') && !tipo.includes('dent');
+                const tipo = b.tipo;
+                if (typeFilter === 'Pharmacy') return tipo === 'Pharmacy';
+                if (typeFilter === 'Dentist') return tipo === 'Dentist';
+                if (typeFilter === 'Distributor') return tipo.includes('Distributor');
                 return true;
             });
         }
 
         if (regionFilter) {
+            const regionMap = {
+                'Catalunya': ['Barcelona', 'Tarragona', 'Lerida', 'Lleida', 'Girona'],
+                'Aragó': ['Huesca', 'Zaragoza', 'Teruel'],
+                'Andorra': ['Andorra la Vella', 'Canillo', 'La Massana', 'Sant Julià de Lòria', 'Encamp', 'Ordino', 'Escaldes-Engordany']
+            };
+            const validRegions = regionMap[regionFilter] || [];
             results = results.filter(b => {
-                const region = b.region.toLowerCase();
-                return region.includes(regionFilter.toLowerCase());
+                return validRegions.includes(b.region) || b.pais === regionFilter;
             });
         }
 
