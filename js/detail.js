@@ -147,15 +147,30 @@ const DetailApp = (() => {
         const icon = L.divIcon({
             className: 'custom-marker',
             html: `<div style="
-                width: 16px; height: 16px;
-                background: ${color};
-                border: 3px solid white;
-                border-radius: 50%;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-            "></div>`,
-            iconSize: [16, 16],
-            iconAnchor: [8, 8],
-            popupAnchor: [0, -10]
+                width: 28px; height: 36px;
+                position: relative;
+            ">
+                <div style="
+                    width: 28px; height: 28px;
+                    background: ${color};
+                    border-radius: 50% 50% 50% 0;
+                    transform: rotate(-45deg);
+                    border: 3px solid white;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+                ">
+                    <div style="
+                        width: 10px; height: 10px;
+                        background: white;
+                        border-radius: 50%;
+                        position: absolute;
+                        top: 50%; left: 50%;
+                        transform: translate(-50%, -50%) rotate(45deg);
+                    "></div>
+                </div>
+            </div>`,
+            iconSize: [28, 36],
+            iconAnchor: [14, 36],
+            popupAnchor: [0, -36]
         });
 
         L.marker([business.lat, business.lng], { icon })
